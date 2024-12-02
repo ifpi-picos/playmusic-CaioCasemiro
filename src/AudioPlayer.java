@@ -1,26 +1,27 @@
 import javax.sound.sampled.*;
-import javax.xml.crypto.Data;
-
-import java.applet.AudioClip;
 import java.io.File;
-import java.io.IOException;
+
 
 import dominio.*;
 
 public class AudioPlayer {
     private Clip audioClip;
-    boolean isPlaying = false;
-    private int currentTrack = 0;
-    private Album currentAlbum;
-
-    public AudioPlayer(Album album){
+    public boolean isPlaying = false;
+    private int currentTrack = 0; 
+    private Album currentAlbum;  
+    
+    public AudioPlayer(Album album) {
         this.currentAlbum = album;
     }
 
-    //carregar o arquivo do audio
-    public void loadAudio(String filepath){
+    public void loadAudio(String filePath) {
         try {
-            File audioFile = new File(filepath);
+            
+            if (audioClip != null && isPlaying) {
+                stopAudio();
+            }
+
+            File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
             AudioFormat format = audioStream.getFormat();
@@ -28,46 +29,43 @@ public class AudioPlayer {
             audioClip = (Clip) AudioSystem.getLine(info);
 
             audioClip.open(audioStream);
+            
         } catch (Exception e) {
-            System.out.println("Erro ao carregar o audio");
+            System.out.println("Erro ao carregar o áudio: " + e.getMessage());
         }
     }
 
-    //Tocar a música
-    public void playAudio(){
-        if(audioClip != null && !isPlaying){
+    public void playAudio() {
+        if (audioClip != null && !isPlaying) {
             audioClip.setFramePosition(0);
             audioClip.start();
             isPlaying = true;
         }
     }
 
-    // para música
-    public void stopAudio(){
-        if(audioClip != null && isPlaying){
+    public void stopAudio() {
+        if (audioClip != null && isPlaying) {
             audioClip.stop();
             isPlaying = false;
         }
     }
 
-
-
-    // Proxima musica
     public void nextTrack() {
         if (currentTrack < currentAlbum.getMusicas().size() - 1) {
             currentTrack++;
             loadAudio(currentAlbum.getMusicas().get(currentTrack).getArquivoAudio());
-            playAudio();
         }
     }
 
-
-    // musica anterior
     public void prevTrack() {
         if (currentTrack > 0) {
             currentTrack--;
             loadAudio(currentAlbum.getMusicas().get(currentTrack).getArquivoAudio());
-            playAudio();
         }
+    }
+
+    
+    public String getCurrentTrackName() {
+        return currentAlbum.getMusicas().get(currentTrack).getNome();
     }
 }

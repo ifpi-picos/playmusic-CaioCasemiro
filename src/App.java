@@ -2,46 +2,55 @@ import dominio.Musica;
 import dominio.Album;
 import dominio.Artista;
 
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
+        // Criação de músicas
+        Musica musica1 = new Musica("Call Out My Name", 238, "assets\\Call Out My Name.wav", "Sei lá KKKKKK");
+        Musica musica2 = new Musica("Die For You", 260, "assets\\Die For You.wav", "Não sei KKKKKK");
 
-        //Criação de músicas
-        Musica musica1 = new Musica("Diga sim para mim", 221, "assets\\Diga Sim pra Mim.wav", "forró");
-        Musica musica2 = new Musica("Sorte", 200, "assets\\Sorte.wav", "forró");
-
-
-        //Criando album e adicionando músicas no album
+        // Criando álbum e adicionando músicas no álbum
         Album album1 = new Album();
-        album1.setNome("Músicas Desejo de menina");
+        album1.setNome("Músicas The Weeknd");
         album1.addMusica(musica1);
         album1.addMusica(musica2);
 
-
-        //Criando o Artista e adicionando o album a para ele
+        // Criando o Artista e adicionando o álbum a ele
         Artista desejoDeMenina = new Artista();
-        desejoDeMenina.setNome("Desejo de Menina");
+        desejoDeMenina.setNome("The Weeknd");
         desejoDeMenina.addAlbum(album1);
 
-
-        //Criando audio player
+        // Criando o AudioPlayer
         AudioPlayer player = new AudioPlayer(album1);
         player.loadAudio(musica1.getArquivoAudio());
 
-        
-        //Criação de botões
+        // Criação da janela principal (JFrame)
+        JFrame frame = new JFrame("Vitrola Vea");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+        frame.setLayout(new BorderLayout());
+
+        // Criação do painel para os botões
+        JPanel panel = new JPanel();
         JButton prevButton = new JButton("<");
         JButton playStopButton = new JButton("Play");
         JButton nextButton = new JButton(">");
 
+        panel.add(prevButton);
+        panel.add(playStopButton);
+        panel.add(nextButton);
 
-        //Ação de botôes play/stop
+        // Criação do JLabel para exibir o nome da música
+        JLabel trackLabel = new JLabel("Tocando agora: " + musica1.getNome(), SwingConstants.CENTER);
+        frame.add(trackLabel, BorderLayout.NORTH);
+        frame.add(panel, BorderLayout.CENTER);
+
+        // Ação dos botões Play/Stop
         playStopButton.addActionListener(e -> {
-            if (player.isPlaying){
+            if (player.isPlaying) {
                 player.stopAudio();
                 playStopButton.setText("Play");
             } else {
@@ -50,24 +59,19 @@ public class App {
             }
         });
 
-        //Ação botão next
-        nextButton.addActionListener(e -> player.nextTrack());
+        // Ação botão Next
+        nextButton.addActionListener(e -> {
+            player.nextTrack();  
+            trackLabel.setText("Tocando agora: " + player.getCurrentTrackName());
+        });
 
+        // Ação botão Prev
+        prevButton.addActionListener(e -> {
+            player.prevTrack();
+            trackLabel.setText("Tocando agora: " + player.getCurrentTrackName());
+        });
 
-        //Ação botan Prev
-        prevButton.addActionListener(e -> player.prevTrack());
-
-
-        //Criação de interface gráfica
-        ImageIcon icon = new ImageIcon("./assets./musica.png");
-        JOptionPane.showOptionDialog(
-            null,
-            "Tocador de musga",
-            "Vitrola vea",
-            JOptionPane.DEFAULT_OPTION, 
-            JOptionPane.PLAIN_MESSAGE,
-            icon,
-            new Object[]{prevButton, playStopButton, nextButton}, 
-            nextButton);
+        // Exibindo a janela
+        frame.setVisible(true);
     }
 }
