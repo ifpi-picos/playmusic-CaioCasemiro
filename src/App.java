@@ -30,23 +30,28 @@ public class App {
         // Criação da janela principal (JFrame)
         JFrame frame = new JFrame("Vitrola Vea");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(300, 150);
+        frame.setLocation(600, 330);
         frame.setLayout(new BorderLayout());
+        
 
         // Criação do painel para os botões
         JPanel panel = new JPanel();
         JButton prevButton = new JButton("<");
         JButton playStopButton = new JButton("Play");
         JButton nextButton = new JButton(">");
-
         panel.add(prevButton);
         panel.add(playStopButton);
         panel.add(nextButton);
 
+        
         // Criação do JLabel para exibir o nome da música
         JLabel trackLabel = new JLabel("Tocando agora: " + musica1.getNome(), SwingConstants.CENTER);
-        frame.add(trackLabel, BorderLayout.NORTH);
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(new JLabel(new ImageIcon("assets\\musica.png")), BorderLayout.NORTH);
+        frame.add(trackLabel, BorderLayout.CENTER);
+        frame.add(panel, BorderLayout.SOUTH);
+        
+        
 
         // Ação dos botões Play/Stop
         playStopButton.addActionListener(e -> {
