@@ -19,9 +19,9 @@ public class App {
         album1.addMusica(musica2);
 
         // Criando o Artista e adicionando o álbum a ele
-        Artista desejoDeMenina = new Artista();
-        desejoDeMenina.setNome("The Weeknd");
-        desejoDeMenina.addAlbum(album1);
+        Artista theweeknd = new Artista();
+        theweeknd.setNome("The Weeknd");
+        theweeknd.addAlbum(album1);
 
         // Criando o AudioPlayer
         AudioPlayer player = new AudioPlayer(album1);
