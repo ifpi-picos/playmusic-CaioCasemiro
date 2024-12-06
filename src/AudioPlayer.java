@@ -12,6 +12,7 @@ public class AudioPlayer {
     
     public AudioPlayer(Album album) {
         this.currentAlbum = album;
+        
     }
 
     public void loadAudio(String filePath) {
@@ -62,6 +63,16 @@ public class AudioPlayer {
             currentTrack--;
             loadAudio(currentAlbum.getMusicas().get(currentTrack).getArquivoAudio());
         }
+    }
+
+    public void setAlbum(Album album){
+        this.currentAlbum = album;
+        resetarTrack();
+    }
+
+
+    public void resetarTrack(){
+    currentTrack = 0;
     }
 
     

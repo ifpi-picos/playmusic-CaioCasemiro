@@ -109,13 +109,17 @@ public class App {
         nextButton.addActionListener(e -> {
             player.nextTrack();  
             trackLabel.setText("<html> | Artista: " + state.currentArtista.getNome() + "<br> | Álbum: " + state.currentAlbum.getNome() + "<br> | Música: " + player.getCurrentTrackName()+ "</html>");
+            playStopButton.setText("Play");
         });
 
         // Ação botão Prev
         prevButton.addActionListener(e -> {
             player.prevTrack();
             trackLabel.setText("<html> | Artista: " + state.currentArtista.getNome() + "<br> | Álbum: " + state.currentAlbum.getNome() + "<br> | Música: " + player.getCurrentTrackName()+"</html>");
+            playStopButton.setText("Play");
         });
+
+
 
         // Ação para trocar de artista
         switchArtistButton.addActionListener(e ->{
@@ -127,6 +131,11 @@ public class App {
 
             state.currentAlbumIndex = 0;
             state.currentAlbum = state.currentArtista.getAlbuns().get(state.currentAlbumIndex);
+
+            player.setAlbum(state.currentAlbum);
+            player.loadAudio(state.currentAlbum.getMusicas().get(0).getArquivoAudio());
+
+            trackLabel.setText("<html> | Artista: " + state.currentArtista.getNome() + "<br> | Álbum: " + state.currentAlbum.getNome() + "<br> | Música: " + player.getCurrentTrackName() + "</html>");
 
         });
 
